@@ -99,8 +99,6 @@ def result_list(context, view, object_list):
         'zipped': zip(list(results(view, object_list)), formset),
     })
 
-    print "LARGO results: ", len(context['results'])
-    print "LARGO formset: ", len(context['formset'])
     return context
 
 
@@ -156,13 +154,9 @@ def result_row_value_display(item, obj, action_buttons, form, index=0):
     add_action_buttons = False
     closing_tag = mark_safe(item[-5:])
 
-    print "not safe item", item
-
     if index == 1:
         add_action_buttons = True
         item = mark_safe(item[0:-5])
-
-    print "safe item", item
 
     return {
         'item': item,
