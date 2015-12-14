@@ -12,6 +12,13 @@
 
 {% block extra_js %}
     {{ media.js }}
+    <script>
+        $(function() {
+            $('.icon-edit').on('click', function(e) {
+                $('[id^=id_form]').toggle();
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}

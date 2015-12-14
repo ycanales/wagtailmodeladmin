@@ -53,6 +53,7 @@ class ModelAdmin(WagtailRegisterable):
     menu_order = None
     list_display = ('__str__',)
     list_filter = ()
+    list_editable = ()
     list_select_related = False
     list_per_page = 100
     search_fields = None

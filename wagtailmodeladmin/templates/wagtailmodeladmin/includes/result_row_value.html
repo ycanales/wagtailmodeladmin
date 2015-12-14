@@ -1,5 +1,8 @@
 {% load i18n wagtailmodeladmin_tags %}
 {{ item }}{% if add_action_buttons %}
+    {% for field in form.visible_fields %}
+        {{ field }}
+    {% endfor %}
     {% if action_buttons %}
     <ul class="actions">
         {% for button in action_buttons %}
