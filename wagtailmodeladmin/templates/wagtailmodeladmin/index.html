@@ -32,10 +32,10 @@
         </div>
         {% if has_add_permission %}
         <div class="right">
-            <div class="addbutton">
+            <div class="addbutton list_editable-edit">
                 <a href="#" class="button bicolor icon icon-edit">Editar</a>
             </div>
-            <div class="addbutton">
+            <div class="addbutton" style="float:right;">
                 <a href="{{ view.get_create_url }}" class="button bicolor icon icon-plus">{% blocktrans with view.model_name as name %}Add {{ name }}{% endblocktrans %}</a>
             </div>
         </div>

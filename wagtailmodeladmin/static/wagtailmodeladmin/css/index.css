@@ -120,6 +120,15 @@ p.no-results {
 	color: #333;
 }
 
+.list_editable-edit {
+	float: left;
+	margin-right: 20px;
+}
+
+.list_editable-save {
+	margin-top: 32px;
+}
+
 @media screen and (min-width: 50em) {
 	#changelist-filter {
 		float: right;
