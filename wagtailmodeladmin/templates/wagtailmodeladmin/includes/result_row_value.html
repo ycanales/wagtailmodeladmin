@@ -1,8 +1,20 @@
-{% load i18n wagtailmodeladmin_tags %}
-{{ item }}{% if add_action_buttons %}
+{% load i18n wagtailmodeladmin_tags widget_tweaks %}
+{{ item }}
+{% if field %}
+    <div class="list_editable" style="display:none;">{% render_field field class+="listing" %}</div>
+{% endif %}
+
+{% if add_action_buttons %}
+    {% comment %}
+
     {% for field in form.visible_fields %}
-        <div class="list_editable" style="display:none;">{{ field }}</div>
+        <div class="list_editable" style="display:none;">{% render_field field class+="listing" %}</div>
     {% endfor %}
+    {% for field in form.hidden_fields %}
+        {{ field }}
+    {% endfor %}
+
+    {% endcomment %}
     {% if action_buttons %}
     <ul class="actions">
         {% for button in action_buttons %}

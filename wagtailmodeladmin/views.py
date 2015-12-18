@@ -620,6 +620,7 @@ class IndexView(WMABaseView):
         queryset = self.get_queryset(request)
         result_count = queryset.count()
         paginator = Paginator(queryset, self.items_per_page)
+        action = '/'.join(['/django-admin'] + request.path.split('/')[-3:])
 
         try:
             page_obj = paginator.page(self.page_num + 1)
@@ -634,8 +635,8 @@ class IndexView(WMABaseView):
             'page_obj': page_obj,
             'object_list': page_obj.object_list,
             'has_add_permission': has_add_permission,
+            'form_action': action,
         }
-
         if self.is_pagemodel:
             allowed_parent_types = self.model.allowed_parent_page_types()
             user = request.user

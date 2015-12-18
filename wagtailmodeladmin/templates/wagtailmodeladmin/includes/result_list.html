@@ -1,6 +1,8 @@
 {% load i18n admin_static wagtailmodeladmin_tags %}
 {% if results %}
-<form action="" method="post">
+<form action="{{ form_action }}" method="post">
+  {% csrf_token %}
+  {{ formset.management_form }}
   <table class="listing full-width">
       <thead>
           <tr>
@@ -23,6 +25,7 @@
 
       </tbody>
   </table>
+  <input class="list_editable" style="float:right;display:none;" type="submit" value="Guardar" name="_save">
 </form>
 {% else %}
   <div class="nice-padding no-search-results">

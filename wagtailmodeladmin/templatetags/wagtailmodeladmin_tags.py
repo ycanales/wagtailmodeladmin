@@ -71,12 +71,10 @@ def results(view, object_list):
 
 @register.inclusion_tag("wagtailmodeladmin/includes/result_list.html",
                         takes_context=True)
-def result_list(context, view, object_list):
+def result_list(context, view, object_list, form_action):
     """
     Displays the headers and data list together
     """
-    print object_list
-    print type(object_list)
     obj = object_list[0]
     app_label = obj.__class__.__dict__['__module__'].split('.')[0]
 
@@ -96,6 +94,7 @@ def result_list(context, view, object_list):
         'num_sorted_fields': num_sorted_fields,
         'results': list(results(view, object_list)),
         'formset': formset,
+        'form_action': form_action,
         'zipped': zip(list(results(view, object_list)), formset),
     })
 
@@ -140,10 +139,8 @@ def admin_list_filter(view, spec):
 @register.inclusion_tag("wagtailmodeladmin/includes/result_row.html",
                         takes_context=True)
 def result_row_display(context, view, object_list, result, form, index):
-    print view.model_admin.list_display
-
+    # print view.model_admin.list_display
     obj = list(object_list)[index]
-    print "form", form
     buttons = view.get_action_buttons_for_obj(context['request'].user, obj)
     context.update({'obj': obj, 'action_buttons': buttons, 'form': form})
     return context
@@ -154,14 +151,20 @@ def result_row_value_display(item, obj, action_buttons, form, index=0):
     add_action_buttons = False
     closing_tag = mark_safe(item[-5:])
 
+    # import ipdb; ipdb.set_trace()
+
     if index == 1:
         add_action_buttons = True
         item = mark_safe(item[0:-5])
+        field = None
+    else:
+        item = mark_safe(item[0:-5])
+        field = form.fields.keys()[index-2]
 
     return {
         'item': item,
         'obj': obj,
-        'form': form,
+        'field': form[field] if field else None,
         'add_action_buttons': add_action_buttons,
         'action_buttons': action_buttons,
         'closing_tag': closing_tag,
