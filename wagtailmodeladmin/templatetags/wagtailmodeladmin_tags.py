@@ -82,7 +82,7 @@ def result_list(context, view, object_list, form_action):
     from importlib import import_module
     try:
         form = getattr(import_module(app_label + '.forms'), 'Wagtail' + obj.__class__.__name__ + 'Form')
-    except AttributeError:
+    except (AttributeError, ImportError):
         form = None
     if form:
         ObjectFormSet = modelformset_factory(obj.__class__, form=form, extra=0)
@@ -162,7 +162,10 @@ def result_row_value_display(item, obj, action_buttons, form, index=0):
         add_action_buttons = True
         field = None
     else:
-        field = form.fields.keys()[index-2]
+        if form:
+            field = form.fields.keys()[index-2]
+        else:
+            field = None
 
     return {
         'item': item,
