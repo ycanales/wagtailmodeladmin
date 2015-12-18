@@ -17,11 +17,19 @@
       </thead>
       <tbody>
 
-      {% for result, form in zipped %}
+      {% if zipped %}
+        {% for result, form in zipped %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                {% result_row_display view object_list result forloop.counter0 form%}
+            </tr>
+        {% endfor %}
+      {% else %}
+        {% for result in results %}
           <tr class="{% cycle 'odd' 'even' %}">
-              {% result_row_display view object_list result form forloop.counter0 %}
+            {% result_row_display view object_list result forloop.counter0 %}
           </tr>
-      {% endfor %}
+        {% endfor %}
+      {% endif %}
 
       </tbody>
   </table>

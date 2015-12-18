@@ -3,7 +3,7 @@
 	padding: 0 15px;
 }
 #result_list table { margin-bottom:0; }
-#result_list tbody th { 
+#result_list tbody th {
 	background-color: transparent;
 	text-align: left;
 	padding: 1.2em 1em;
@@ -73,7 +73,7 @@
    	background-color: #358c8b;
    	border-color: #358c8b;
    	color: white;
-   	
+
 }
 
 #changelist-filter li.selected a {
@@ -89,7 +89,7 @@
 .no-search-results h2 {
 	padding-top: 0.3em;
 	margin-bottom: 0.3em;
-	
+
 
 }
 .no-search-results img {
@@ -108,6 +108,16 @@ div.pagination ul {
 }
 p.no-results {
 	margin: 30px 1em 0;
+}
+
+.list_editable {
+	position: relative;
+	top: -20px;
+	height: 30px;
+}
+
+.list_editable input.listing {
+	color: #333;
 }
 
 @media screen and (min-width: 50em) {

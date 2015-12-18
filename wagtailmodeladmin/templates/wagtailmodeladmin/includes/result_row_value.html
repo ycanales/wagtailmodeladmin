@@ -2,6 +2,10 @@
 {{ item }}
 {% if field %}
     <div class="list_editable" style="display:none;">{% render_field field class+="listing" %}</div>
+{% else %}
+    {% for field in form.hidden_fields %}
+        {{ field }}
+    {% endfor %}
 {% endif %}
 
 {% if add_action_buttons %}
@@ -9,9 +13,6 @@
 
     {% for field in form.visible_fields %}
         <div class="list_editable" style="display:none;">{% render_field field class+="listing" %}</div>
-    {% endfor %}
-    {% for field in form.hidden_fields %}
-        {{ field }}
     {% endfor %}
 
     {% endcomment %}
@@ -22,5 +23,5 @@
         {% endfor %}
     </ul>
     {% endif %}
-    {{ item_closing_tag }}
 {% endif %}
+{{ item_closing_tag }}

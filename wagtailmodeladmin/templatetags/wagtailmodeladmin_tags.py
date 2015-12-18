@@ -80,9 +80,17 @@ def result_list(context, view, object_list, form_action):
 
     from django.forms import modelformset_factory
     from importlib import import_module
-    form = getattr(import_module(app_label + '.forms'), 'Wagtail' + obj.__class__.__name__ + 'Form')
-    ObjectFormSet = modelformset_factory(obj.__class__, form=form, extra=0)
-    formset =  ObjectFormSet(queryset=object_list)
+    try:
+        form = getattr(import_module(app_label + '.forms'), 'Wagtail' + obj.__class__.__name__ + 'Form')
+    except AttributeError:
+        form = None
+    if form:
+        ObjectFormSet = modelformset_factory(obj.__class__, form=form, extra=0)
+        formset =  ObjectFormSet(queryset=object_list)
+        context.update({
+            'formset': formset,
+            'zipped': zip(list(results(view, object_list)), formset),
+        })
 
     headers = list(result_headers(view))
     num_sorted_fields = 0
@@ -93,9 +101,7 @@ def result_list(context, view, object_list, form_action):
         'result_headers': headers,
         'num_sorted_fields': num_sorted_fields,
         'results': list(results(view, object_list)),
-        'formset': formset,
         'form_action': form_action,
-        'zipped': zip(list(results(view, object_list)), formset),
     })
 
     return context
@@ -138,7 +144,7 @@ def admin_list_filter(view, spec):
 
 @register.inclusion_tag("wagtailmodeladmin/includes/result_row.html",
                         takes_context=True)
-def result_row_display(context, view, object_list, result, form, index):
+def result_row_display(context, view, object_list, result, index, form=None):
     # print view.model_admin.list_display
     obj = list(object_list)[index]
     buttons = view.get_action_buttons_for_obj(context['request'].user, obj)
@@ -150,21 +156,19 @@ def result_row_display(context, view, object_list, result, form, index):
 def result_row_value_display(item, obj, action_buttons, form, index=0):
     add_action_buttons = False
     closing_tag = mark_safe(item[-5:])
-
-    # import ipdb; ipdb.set_trace()
+    item = mark_safe(item[0:-5])
 
     if index == 1:
         add_action_buttons = True
-        item = mark_safe(item[0:-5])
         field = None
     else:
-        item = mark_safe(item[0:-5])
         field = form.fields.keys()[index-2]
 
     return {
         'item': item,
         'obj': obj,
         'field': form[field] if field else None,
+        'form': form,
         'add_action_buttons': add_action_buttons,
         'action_buttons': action_buttons,
         'closing_tag': closing_tag,
