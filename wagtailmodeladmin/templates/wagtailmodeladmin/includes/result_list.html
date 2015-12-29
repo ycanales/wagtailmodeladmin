@@ -2,6 +2,7 @@
 {% if results %}
 <form action="{{ form_action }}" method="post">
   {% csrf_token %}
+  <input type="hidden" name="form-wagtailmodeladmin" value="1">
   {{ formset.management_form }}
   <table class="listing full-width">
       <thead>
